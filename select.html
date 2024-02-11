@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Tell browsers not to scale the viewport automatically -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polygon Pro</title>
+    <link rel="icon" href="favicon.ico" />
+  </head>
+
+  <body>
+    <div>
+      <h2>Personal Scoreboard</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Shape</th>
+            <th>Accuracy %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Circle</td>
+            <td>85%</td>
+          </tr>
+          <tr>
+            <td>Square</td>
+            <td>92%</td>
+          </tr>
+          <tr>
+            <td>Triangle</td>
+            <td>78%</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    <div>
+      <h2>Global Scoreboard</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Shape</th>
+            <th>Accuracy %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Michael</td>
+            <td>Rectangle</td>
+            <td>95%</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Sara</td>
+            <td>Circle</td>
+            <td>88%</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>David</td>
+            <td>Square</td>
+            <td>80%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <select>
+        <option value="default">Select a shape...</option>
+        <option value="polygon">Regular polygon</option>
+        <option value="ellipse">Ellipse</option>
+        <option value="personal">Draw your own!</option>
+      </select>
+    </div>
+
+    <div>
+      <form method="get">
+        <input type="text" id="sides" placeholder="Number of sides" />
+      </form>
+      <form method="get">
+        <input type="text" id="focal" placeholder="Focal distance" />
+      </form>
+      <form action="draw.html">
+        <button type="submit">Go!</button>
+      </form>
+    </div>
+  </body>
+
+  <footer>
+    <hr />
+    <a href="https://github.com/KennionBYUCS/startup" target="_blank">Github</a>
+  </footer>
+</html>
