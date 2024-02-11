@@ -40,8 +40,17 @@ I am going to use the required technologies in the following ways.
 - **WebSocket** - Notifications are sent to all users when global high scores change.
 - **React** - Web framework.
 
-#### Note for the TAs
-I'm not terribly familiar with the details for the above technologies, thus I will fill out more specifications as I learn about them and incorporate them into my project.
+### HTML deliverable
+
+For this deliverable I built a basic structure for my website in HTML.
+
+- **HTML pages** - Four HTML pages: welcome screen, login screen, shape selection screen, and drawing screen.
+- **Links** - The welcome page redirects guest users to the shape selection screen and other users to the login screen. The login screen directs users to the shape selection screen after logging in or creating an account. The shape selection screen directs users to the drawing screen after specifying shape parameters. The drawing screen directs users to the shape selection screen after drawing a shape. Both the shape selection screen and drawing screen contain a redirect link to the login screen.
+- **Text** - Filler text is listed for the shape selection options and personal/global scoreboards.
+- **Images** - A placeholder image is included on the drawing screen to represent the shape that the user will attempt to replicate.
+- **Database** - The personal and global scoreboards on the shape selection screen have been populated in a table with sample data to represent the individual and global high scores of players for each shape type.
+- **Websocket** - The global scoreboard will update in real time when a new highest accuracy score is achieved by a registered user.
+
 =======
 # startup
 Startup application for BYU CS 260
