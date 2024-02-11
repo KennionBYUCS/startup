@@ -50,8 +50,3 @@ For this deliverable I built a basic structure for my website in HTML.
 - **Images** - A placeholder image is included on the drawing screen to represent the shape that the user will attempt to replicate.
 - **Database** - The personal and global scoreboards on the shape selection screen have been populated in a table with sample data to represent the individual and global high scores of players for each shape type.
 - **Websocket** - The global scoreboard will update in real time when a new highest accuracy score is achieved by a registered user.
-
-=======
-# startup
-Startup application for BYU CS 260
->>>>>>> Stashed changes
