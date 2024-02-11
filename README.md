@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Sketch Accuracy Checker
 ## Specification Deliverables
 ### Elevator Pitch
@@ -41,3 +42,7 @@ I am going to use the required technologies in the following ways.
 
 #### Note for the TAs
 I'm not terribly familiar with the details for the above technologies, thus I will fill out more specifications as I learn about them and incorporate them into my project.
+=======
+# startup
+Startup application for BYU CS 260
+>>>>>>> Stashed changes
