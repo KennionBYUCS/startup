@@ -1,0 +1,31 @@
+main {
+    flex: 1 calc(100vh - 110px);
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    justify-content: right;
+    padding-left: 0.8em;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-width: 375px;
+  }
+  
+  menu {
+    flex: 1;
+    display: flex;
+    /*  overwrite Bootstrap so the menu does not wrap */
+    flex-direction: row !important;
+    list-style: none;
+  }
+  
+  .navbar-brand {
+    padding-left: 1.6em;
+  }
+  
+  menu .nav-item {
+    padding: 0 0.4em;
+    padding-bottom: 0.8em;
+  }
