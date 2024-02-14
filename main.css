@@ -1,0 +1,29 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-width: 375px;
+}
+
+main {
+  flex: 1 calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+h1 {
+  font-size: 60px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+.left-button-offset {
+  margin-right: -75px;
+}
+
+.right-button-offset {
+  margin-left: -75px;
+}

@@ -9,20 +9,34 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+
+    <link rel="stylesheet" href="main.css" />
     <title>Polygon Pro</title>
     <link rel="icon" href="favicon.ico" />
   </head>
-  <body>
-    <main>
-      <h1>Shape Drawer</h1>
-      <h2>Do you have what it takes?</h2>
+  <body class="bg-light text-dark">
+    <main class="container-fluid bg-secondary text-center">
+      <div>
+        <h1>Shape Drawer</h1>
+        <h2 style="padding-bottom: 7px;">Do you have what it takes?</h2>
 
-      <table>
-        <tr>
-          <td><a href="select.html">Play as Guest</a></td>
-          <td><a href="login.html">Login</a></td>
-        </tr>
-      </table>
+        <!--when in doubt, slap another div on there-->
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <form method="get" action="login.html">
+                <button class="btn btn-primary left-button-offset">Login</button>
+              </form>
+            </div>
+            <div class="col">
+              <form method="get" action="select.html">
+                <button class="btn btn-primary right-button-offset">Play as Guest</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
 
     <script
