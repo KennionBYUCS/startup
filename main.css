@@ -4,6 +4,23 @@ body {
   min-width: 375px;
 }
 
+menu {
+  flex: 1;
+  display: flex;
+  /*  overwrite Bootstrap so the menu does not wrap */
+  flex-direction: row !important;
+  list-style: none;
+}
+
+.navbar-brand {
+  padding-left: 1.6em;
+}
+
+menu .nav-item {
+  padding: 0 0.4em;
+  padding-bottom: 0.8em;
+}
+
 main {
   flex: 1 calc(100vh - 110px);
   display: flex;
@@ -26,4 +43,28 @@ h2 {
 
 .right-button-offset {
   margin-left: -75px;
+}
+
+@media (max-height: 600px) {
+  header {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
+  main {
+    flex: 1 100vh;
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
+  main {
+    flex: 1 100vh;
+  }
 }
