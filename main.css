@@ -29,14 +29,6 @@ main {
   justify-content: space-around;
 }
 
-h1 {
-  font-size: 60px;
-}
-
-h2 {
-  font-size: 40px;
-}
-
 .left-button-offset {
   margin-right: -75px;
 }
