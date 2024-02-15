@@ -1,23 +1,7 @@
-main {
-    flex: 1 calc(100vh - 110px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-}
-
 body {
     display: flex;
     flex-direction: column;
     min-width: 375px;
-  }
-
-  td {
-    text-align: center;
-  }
-
-  thead {
-    text-align: center;
   }
   
   menu {
@@ -37,19 +21,33 @@ body {
     padding-bottom: 0.8em;
   }
 
-  .parameters {
+  main {
+    flex: 1 calc(100vh - 110px);
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: right;
-    height: 100%;
-  }
+    gap: 40px;
+}
 
-  .parameters > * {
+img {
+    width: 100%;
+    height: auto;
+    max-width: min(90vh, (90vw + 200px));
+}
+
+.percentages {
+    padding: 1.6em;
+}
+
+.buttons {
+    padding: 1.6em;
+}
+
+.buttons > * {
     margin: 10px 0;
   }
 
-  @media (max-height: 600px) {
+@media (max-height: 600px) {
     header {
       display: none;
     }

@@ -9,48 +9,61 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
+
+    <link rel="stylesheet" href="draw.css" />
+
     <title>Draw Shape</title>
     <link rel="icon" href="favicon.ico" />
   </head>
 
-  <nav>
-    <div>
-      <h1>Username</h1>
-    </div>
-    <hr />
-
-    <div>
-      <a href="login.html">Return to login</a>
-    </div>
-    <hr />
-  </nav>
-
   <body>
-    <div>
-      <h2>Shape type:</h2>
-      <h3>Circle</h3>
-    </div>
-    
-    <div>
-      <h2>Accuracy %</h2>
-      <h3>98.7%</h3>
-    </div>
+    <header class="container-fluid">
+      <nav class="navbar fixed-top navbar-light">
+        <a class="navbar-brand">Polygon Pro</a>
+        <menu class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">Welcome</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="select.html">Select Shape</a>
+          </li>
+        </menu>
+      </nav>
+    </header>
 
-    <div>
-      <img src="circle-with-dot.png" alt="Placeholder image for user-defined shape" width="200px">
-    </div>
-    <br />
-    <div>
-      <form action="select.html">
-        <button type="submit">Submit Score</button>
-      </form>
-    </div>
-    <br />
-    <div>
-      <form>
-        <button type="submit">Retry</button>
-      </form>
-    </div>
+    <main>
+      <div class="percentages">
+        <div>
+          <h2>Shape type:</h2>
+          <h3>Circle</h3>
+        </div>
+        
+        <div>
+          <h2>Accuracy %</h2>
+          <h3>98.7%</h3>
+        </div>
+      </div>
+
+      <div class="image">
+        <img src="circle-with-dot.png" alt="Placeholder image for user-defined shape">
+      </div>
+
+      <div class="buttons">
+        <div>
+          <form action="select.html">
+            <button type="submit">Submit Score</button>
+          </form>
+        </div>
+        <div>
+          <form>
+            <button type="submit">Retry</button>
+          </form>
+        </div>
+      </div>
+    </main>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
