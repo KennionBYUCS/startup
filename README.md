@@ -50,3 +50,16 @@ For this deliverable I built a basic structure for my website in HTML.
 - **Images** - A placeholder image is included on the drawing screen to represent the shape that the user will attempt to replicate.
 - **Database** - The personal and global scoreboards on the shape selection screen have been populated in a table with sample data to represent the individual and global high scores of players for each shape type.
 - **Websocket** - The global scoreboard will update in real time when a new highest accuracy score is achieved by a registered user.
+
+### CSS deliverable
+
+For this deliverable I formatted my existing HTML code with Bootstrap CSS.
+
+- **Header** - Each page has a header with links to the other pages minus the drawing screen. This screen is not linked in the header as in the future its format will be dependent on the input from the select screen. Links change color on hover.
+- **Footer** - Each page has a footer with my name and a link to the Github repository in the far right corner.
+- **Main body** - Body of each page is styled with flex to ensure compatability across multiple devices.
+- **Navigation elements** - Links to all pages except drawing page are contained in the header. Other links between pages are implemented with Bootstrap buttons.
+- **Responsive to window resizing** - Pages are designed with flex to accomodate multiple window sizes. Readability is somewhat compromised for very small screens due to the amount of elements present on many screens.
+- **Application elements** - Elements are consistently spaced across screens and employ basic Bootstrap formatting for color and structure.
+- **Application text content** - Text is selectively resized and aligned on all screens. Placeholder text included for future deliverables.
+- **Application images** - Draw screen contains a dynamically resizable image representing the maximum area in which the user will draw their shape. Size of the image is scaled across all browser sizes.
