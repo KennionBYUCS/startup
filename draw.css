@@ -21,8 +21,12 @@ body {
     padding-bottom: 0.8em;
   }
 
+  footer a {
+    float: right;
+  }
+
   main {
-    flex: 1 calc(100vh - 110px);
+    flex: 1 calc(100vh - 24px);
     display: flex;
     align-items: center;
     justify-content: center;

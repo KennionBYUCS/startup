@@ -1,5 +1,5 @@
 main {
-    flex: 1 calc(100vh - 110px);
+    flex: 1 calc(100vh - 24px);
     display: flex;
     align-items: center;
     justify-content: center;
