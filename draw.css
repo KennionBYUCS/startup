@@ -1,76 +1,25 @@
-body {
-    display: flex;
-    flex-direction: column;
-    min-width: 375px;
-  }
-  
-  menu {
-    flex: 1;
-    display: flex;
-    /*  overwrite Bootstrap so the menu does not wrap */
-    flex-direction: row !important;
-    list-style: none;
-  }
-  
-  .navbar-brand {
-    padding-left: 1.6em;
-  }
-  
-  menu .nav-item {
-    padding: 0 0.4em;
-    padding-bottom: 0.8em;
-  }
-
-  footer a {
-    float: right;
-  }
-
-  main {
-    flex: 1 calc(100vh - 24px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
+main {
+  flex: 1 calc(100vh - 24px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
 }
 
 img {
-    width: 100%;
-    height: auto;
-    max-width: min(90vh, (90vw + 200px));
+  width: 100%;
+  height: auto;
+  max-width: min(90vh, (90vw + 200px));
 }
 
 .percentages {
-    padding: 1.6em;
+  padding: 1.6em;
 }
 
 .buttons {
-    padding: 1.6em;
+  padding: 1.6em;
 }
 
 .buttons > * {
-    margin: 10px 0;
-  }
-
-@media (max-height: 600px) {
-    header {
-      display: none;
-    }
-    footer {
-      display: none;
-    }
-    main {
-      flex: 1 100vh;
-    }
-  }
-  
-  @media (max-width: 600px) {
-    header {
-      display: none;
-    }
-    footer {
-      display: none;
-    }
-    main {
-      flex: 1 100vh;
-    }
-  }
+  margin: 10px 0;
+}

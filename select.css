@@ -6,35 +6,12 @@ main {
     gap: 40px;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-width: 375px;
-  }
-
   td {
     text-align: center;
   }
 
   thead {
     text-align: center;
-  }
-  
-  menu {
-    flex: 1;
-    display: flex;
-    /*  overwrite Bootstrap so the menu does not wrap */
-    flex-direction: row !important;
-    list-style: none;
-  }
-  
-  .navbar-brand {
-    padding-left: 1.6em;
-  }
-  
-  menu .nav-item {
-    padding: 0 0.4em;
-    padding-bottom: 0.8em;
   }
 
   .parameters {
@@ -47,28 +24,4 @@ body {
 
   .parameters > * {
     margin: 10px 0;
-  }
-
-  @media (max-height: 600px) {
-    header {
-      display: none;
-    }
-    footer {
-      display: none;
-    }
-    main {
-      flex: 1 100vh;
-    }
-  }
-  
-  @media (max-width: 600px) {
-    header {
-      display: none;
-    }
-    footer {
-      display: none;
-    }
-    main {
-      flex: 1 100vh;
-    }
   }
