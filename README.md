@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # Sketch Accuracy Checker
 ## Specification Deliverables
 ### Elevator Pitch
