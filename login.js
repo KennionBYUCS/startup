@@ -1,4 +1,4 @@
-let errorMessageElement;
+let username;
 
 function login() {
     const formElement = document.querySelector("#form");
@@ -14,9 +14,9 @@ function login() {
         } else {
             if (!formElement.hasAttribute("login_wrong_password_error_message")) {
                 clearErrorMessage();
-                errorMessageElement = document.createElement("div");
-                errorMessageElement.textContent = "Incorrect password";
-                formElement.appendChild(errorMessageElement);
+                username = document.createElement("div");
+                username.textContent = "Incorrect password";
+                formElement.appendChild(username);
                 formElement.setAttribute("login_wrong_password_error_message", "true");
             }
         }
@@ -24,9 +24,9 @@ function login() {
 
     if (!formElement.hasAttribute("login_unknown_account_error_message")) {
         clearErrorMessage();
-        errorMessageElement = document.createElement("div");
-        errorMessageElement.textContent = "Unregistered account";
-        formElement.appendChild(errorMessageElement);
+        username = document.createElement("div");
+        username.textContent = "Unregistered account";
+        formElement.appendChild(username);
         formElement.setAttribute("login_unknown_account_error_message", "true");
     }
 }
@@ -40,9 +40,9 @@ function create_account() {
         // could also add regex types to see if username/password are reasonable
         if (!formElement.hasAttribute("account_creation_error_message")) {
             clearErrorMessage();
-            errorMessageElement = document.createElement("div");
-            errorMessageElement.textContent = "Please input both a username and password";
-            formElement.appendChild(errorMessageElement);
+            username = document.createElement("div");
+            username.textContent = "Please input both a username and password";
+            formElement.appendChild(username);
             formElement.setAttribute("account_creation_error_message", "true");
         }
         return;
@@ -56,9 +56,9 @@ function create_account() {
 function clearErrorMessage() {
     const formElement = document.querySelector("#form");
 
-    if (errorMessageElement) {
-        formElement.removeChild(errorMessageElement);
-        errorMessageElement = null;
+    if (username) {
+        formElement.removeChild(username);
+        username = null;
     }
 
     formElement.removeAttribute("account_creation_error_message");

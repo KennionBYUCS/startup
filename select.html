@@ -10,12 +10,18 @@
       crossorigin="anonymous"
     />
 
+    <script src="login.js"></script>
+    <script src="select.js"></script>
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="select.css" />
 
     <title>Shape Selection</title>
     <link rel="icon" href="favicon.ico" />
   </head>
+
+  <div id="username-div">
+    <!--the username of the player will be inserted into this div from select.js-->
+  </div>
 
   <body>
     <header class="container-fluid">
@@ -26,7 +32,7 @@
             <a class="nav-link" href="index.html">Welcome</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="login.html">Login</a>
+            <a class="nav-link" onclick="logout()" href="login.html">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="select.html">Select Shape</a>
