@@ -10,6 +10,7 @@
       crossorigin="anonymous"
     />
 
+    <script src="login.js"></script>
     <link rel="stylesheet" href="main.css" />
 
     <title>Login</title>
@@ -54,15 +55,16 @@
     </header>
 
     <main>
-      <div class="login-form">
+      <div class="login-form" id="form">
         <h2>Login</h2>
-        <form method="get" action="select.html">
+        <form method="get">
           <input type="text" id="name" placeholder="Username" />
           <br>
           <input type="text" id="password" placeholder="Password" />
           <br>
-          <button class="btn btn-primary" onclick="login()" type="submit">Login</button>
-          <button class="btn btn-primary" onclick="create_account()" type="submit">Create Account</button>
+          <button class="btn btn-primary" onclick="login()" type="button">Login</button>
+          <button class="btn btn-primary" onclick="create_account()" type="button">Create Account</button>
+          <br>
         </form>
       </div>
     </main>
