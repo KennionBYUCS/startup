@@ -2,9 +2,9 @@ let shapeErrorMessage;
 
 document.addEventListener('DOMContentLoaded', function () {
     usernameDiv = document.querySelector("#username-div");
-    username = document.createElement("h2");
-    username.textContent = localStorage.getItem("username");
-    usernameDiv.appendChild(username);
+    usernameDisplay = document.createElement("h2");
+    usernameDisplay.textContent = localStorage.getItem("username");
+    usernameDiv.appendChild(usernameDisplay);
 });
 
 function getShapeType() {
@@ -50,6 +50,7 @@ function getShapeType() {
         // stored as string, will need to be converted in draw page
         localStorage.setItem("shape-type", "polygon");
         localStorage.setItem("sides", numberOfSidesElement.value);
+        window.location.href = "draw.html";
     }
 
     if (shapeTypeElement.value === "ellipse" && parseFloat(focalDistanceElement.value) === NaN) {
@@ -70,6 +71,7 @@ function getShapeType() {
 
     if (shapeTypeElement.value === "ellipse" && parseFloat(focalDistanceElement.value) === 0) {
         localStorage.setItem("shape-type", "circle");
+        window.location.href = "draw.html";
         return;
     }
 
@@ -84,6 +86,7 @@ function getShapeType() {
     else {
         localStorage.setItem("shape-type", "ellipse");
         localStorage.setItem("focal", focalDistanceElement.value);
+        window.location.href = "draw.html";
         return;
     }
 }
@@ -111,3 +114,65 @@ function focalDistanceTooLarge(focalDistance) {
 
     return false;
 }
+
+class GlobalScoreboardRow {
+    username;
+    shape;
+    accuracy;
+
+    constructor(username, shape, accuracy) {
+        this.username = username;
+        this.shape = shape;
+        this.accuracy = accuracy;
+    }
+};
+
+let globalScoreboard = []
+const MAX_GLOBAL_ENTRIES = 12;
+let numGlobalEntries = 0;
+
+function generateRandomGlobalScoreboardRow() {
+    const names = ["David", "YoungWoo", "Austin", "Kai", "Stephen", "Jacob", "Kaden", "Preston", "Matt"];
+    const shapes = ["Circle", "Ellipse", "Polygon"];
+
+    randomName = names[Math.floor(Math.random() * 10) % names.length];
+    randomShape = shapes[Math.floor(Math.random() * 4) % shapes.length];
+    randomAccuracy = Math.floor(Math.random() * 100) % 100;
+
+    return new GlobalScoreboardRow(randomName, randomShape, randomAccuracy);
+}
+
+function convertGlobalEntryToHTML(globalElement) {
+    return `<td>${globalElement.username}</td><td>${globalElement.shape}</td><td>${globalElement.accuracy}%</td>`
+}
+
+function compareAccuracy(a, b) {
+    return b.accuracy - a.accuracy;
+}
+
+setInterval(() => {
+    const randomRow = generateRandomGlobalScoreboardRow();
+    const globalScoreboardElement = document.querySelector('#global-scoreboard-body');
+
+    if(numGlobalEntries < MAX_GLOBAL_ENTRIES) {
+        globalScoreboard.push(randomRow);
+        globalScoreboard.sort(compareAccuracy);
+        numGlobalEntries++;
+    } 
+    else {
+        if (randomRow.accuracy > globalScoreboard[MAX_GLOBAL_ENTRIES - 1].accuracy) {
+            globalScoreboard.pop();
+            globalScoreboard.push(randomRow);
+            globalScoreboard.sort(compareAccuracy);
+        }
+    }
+
+    let rowHTML = "";
+
+    for (let i = 0; i < numGlobalEntries; i++) {
+        rowHTML = rowHTML + `<tr><td>${i + 1}</td>` + convertGlobalEntryToHTML(globalScoreboard[i]) + "</tr>";
+    }
+
+    globalScoreboardElement.innerHTML = rowHTML;
+  }, 5000);
+
