@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     usernameDiv.appendChild(usernameDisplay);
 });
 
+document.addEventListener('DOMContentLoaded', loadPersonalScoreboardFromStorage());
+
 function getShapeType() {
     const parametersElement = document.querySelector("#parameters");
     const shapeTypeElement = document.querySelector("#shape-type");
@@ -133,10 +135,10 @@ let numGlobalEntries = 0;
 
 function generateRandomGlobalScoreboardRow() {
     const names = ["David", "YoungWoo", "Austin", "Kai", "Stephen", "Jacob", "Kaden", "Preston", "Matt"];
-    const shapes = ["Circle", "Ellipse", "Polygon"];
+    const shapes = ["Circle", "Ellipse", "Triangle", "Square", "Pentagon", "Hexagon", "Heptagon", "Octagon", "Nonagon", "Decagon", "Hendecagon", "Dodecagon"];
 
     randomName = names[Math.floor(Math.random() * 10) % names.length];
-    randomShape = shapes[Math.floor(Math.random() * 4) % shapes.length];
+    randomShape = shapes[Math.floor(Math.random() * 13) % shapes.length];
     randomAccuracy = Math.floor(Math.random() * 100) % 100;
 
     return new GlobalScoreboardRow(randomName, randomShape, randomAccuracy);
@@ -176,3 +178,35 @@ setInterval(() => {
     globalScoreboardElement.innerHTML = rowHTML;
   }, 5000);
 
+class PersonalScoreboardRow {
+    shape;
+    accuracy;
+
+    constructor(shape, accuracy) {
+        this.shape = shape;
+        this.accuracy = accuracy;
+    }
+}
+
+function loadPersonalScoreboardFromStorage() {
+    const personalScoreboardElement = document.querySelector("#personal-scoreboard-body");
+    let personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
+
+    if (personalScoreboard === null) {
+        const personalScoreboardHead = document.querySelector("#personal-scoreboard")
+        scoreboardErrorMessage = document.createElement("div");
+        scoreboardErrorMessage.textContent = "You have no saved high scores.";
+        document.getElementById("personal-scoreboard").style.textAlign = "center";
+        personalScoreboardHead.appendChild(scoreboardErrorMessage);
+        return;
+    }
+
+    personalScoreboard.sort(compareAccuracy);
+    
+    let rowHTML;
+    for (let i = 0; i < personalScoreboard.length; i++) {
+        rowHTML = rowHTML + `<tr><td>${personalScoreboard[i].shape}</td><td>${personalScoreboard[i].accuracy}</td></tr>`
+    }
+
+    personalScoreboardElement = rowHTML;
+}
