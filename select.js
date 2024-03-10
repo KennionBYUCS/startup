@@ -49,8 +49,8 @@ function getShapeType() {
         return;
     }
     else { // number of sides within range
-        // stored as string, will need to be converted in draw page
-        localStorage.setItem("shape-type", "polygon");
+        // TODO: set name of shape type based on number of sides
+        localStorage.setItem("shape-type", "Polygon");
         localStorage.setItem("sides", numberOfSidesElement.value);
         window.location.href = "draw.html";
     }
@@ -72,7 +72,7 @@ function getShapeType() {
     }
 
     if (shapeTypeElement.value === "ellipse" && parseFloat(focalDistanceElement.value) === 0) {
-        localStorage.setItem("shape-type", "circle");
+        localStorage.setItem("shape-type", "Circle");
         window.location.href = "draw.html";
         return;
     }
@@ -86,7 +86,7 @@ function getShapeType() {
         return;
     }
     else {
-        localStorage.setItem("shape-type", "ellipse");
+        localStorage.setItem("shape-type", "Ellipse");
         localStorage.setItem("focal", focalDistanceElement.value);
         window.location.href = "draw.html";
         return;

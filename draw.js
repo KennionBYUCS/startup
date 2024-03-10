@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     usernameDiv.appendChild(username);
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    usernameDiv = document.querySelector("#shape-type");
+    username = document.createElement("h3");
+    username.textContent = localStorage.getItem("shape-type");
+    usernameDiv.appendChild(username);
+});
+
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 
@@ -45,3 +52,4 @@ function redraw() {
         ctx.stroke();
     });
 }
+
