@@ -1,4 +1,5 @@
 let shapeErrorMessage;
+const MAX_GLOBAL_ENTRIES = 12;
 
 document.addEventListener('DOMContentLoaded', function () {
     usernameDiv = document.querySelector("#username-div");
@@ -164,7 +165,6 @@ class GlobalScoreboardRow {
 };
 
 let globalScoreboard = []
-const MAX_GLOBAL_ENTRIES = 12;
 let numGlobalEntries = 0;
 
 function generateRandomGlobalScoreboardRow() {
@@ -237,10 +237,10 @@ function loadPersonalScoreboardFromStorage() {
 
     personalScoreboard.sort(compareAccuracy);
     
-    let rowHTML;
-    for (let i = 0; i < personalScoreboard.length; i++) {
-        rowHTML = rowHTML + `<tr><td>${personalScoreboard[i].shape}</td><td>${personalScoreboard[i].accuracy}</td></tr>`
+    let rowHTML = "";
+    for (let i = 0; i < Math.min(MAX_GLOBAL_ENTRIES, personalScoreboard.length); i++) {
+        rowHTML = rowHTML + `<tr><td>${personalScoreboard[i].shape}</td><td>${personalScoreboard[i].accuracy}%</td></tr>`
     }
 
-    personalScoreboardElement = rowHTML;
+    personalScoreboardElement.innerHTML = rowHTML;
 }

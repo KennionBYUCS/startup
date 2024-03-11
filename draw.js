@@ -1,3 +1,5 @@
+localStorage.setItem("accuracy", "0");
+
 document.addEventListener('DOMContentLoaded', function() {
     usernameDiv = document.querySelector("#username-div");
     username = document.createElement("h2");
@@ -18,6 +20,7 @@ function renderAccuracy() {
     accuracy = document.createElement("h3");
     accuracy.textContent = calculateAccuracy().toString() + "%";
     accuracyTitle.appendChild(accuracy);
+    localStorage.setItem("accuracy", calculateAccuracy());
 }
 
 document.addEventListener('DOMContentLoaded', drawCenter);
@@ -194,6 +197,27 @@ function calculateAccuracy() {
     else {
         return calculateCircleAccuracy();
     }
+}
+
+class PersonalScoreboardRow {
+    shape;
+    accuracy;
+
+    constructor(shape, accuracy) {
+        this.shape = shape;
+        this.accuracy = accuracy;
+    }
+}
+
+function saveAccuracy() {
+    let personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
+    if (personalScoreboard === null) {
+        personalScoreboard = [];
+    }
+
+    personalScoreboard.push(new PersonalScoreboardRow(localStorage.getItem("shape-type"), parseFloat(localStorage.getItem("accuracy"))));
+    localStorage.setItem("personalScoreboard", JSON.stringify(personalScoreboard));
+    window.location.href = "select.html";
 }
 
 function findVertices() {

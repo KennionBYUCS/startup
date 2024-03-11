@@ -74,6 +74,5 @@ function login_as_guest() {
 }
 
 function logout() {
-    localStorage.setItem("username", null);
-    localStorage.setItem("password", null);
+    localStorage.clear();
 }
