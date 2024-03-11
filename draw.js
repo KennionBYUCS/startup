@@ -190,5 +190,32 @@ function calculateAccuracy() {
     if (localStorage.getItem("shape-type") === "circle") {
         return calculateCircleAccuracy();
     }
+    // this is a placeholder for when I get the polygon accuracy logic implemented
+    else {
+        return calculateCircleAccuracy();
+    }
 }
 
+function findVertices() {
+    let vertexIndices = [];
+    // assumes user will always start drawing polygon at a vertex
+    currVertexIndex = 0;
+    vertexIndices.push(0);
+    currSlope = slope(lines[0].x1, lines[0].y1, lines[1].x2, lines[1].y2);
+    for (let i = 1; i < lines.length - 1; i++) {
+        // TODO: handle near-infinite slope case
+        nextSlope = slope(lines[i].x1, lines[i].y1, lines[i + 1].x2, lines[i + 1].y2);
+        // include range of tolerance for not perfectly straight lines
+        // .15 is arbitrary, need to test to find appropriate value
+        if (Math.abs(currSlope - nextSlope) > .15) {
+            vertexIndices.push(i);
+            currVertexIndex = i;
+            currSlope = nextSlope;
+        }
+    }
+}
+
+// TODO: write function to generate polygon based on average radius distance to vertices
+//       if number of vertices does not match number of sides accuracy should take a hit
+//       calculate and average lengths of sides to generate shape
+//       calculate accuracy by computing generated angle between three points and comparing to expected angle
