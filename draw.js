@@ -6,11 +6,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // for some reason this does not render correctly when I rename the variables
     usernameDiv = document.querySelector("#shape-type");
     username = document.createElement("h3");
     username.textContent = localStorage.getItem("shape-type");
     usernameDiv.appendChild(username);
 });
+
+function renderAccuracy() {
+    accuracyTitle = document.querySelector("#accuracy");
+    accuracy = document.createElement("h3");
+    accuracy.textContent = calculateAccuracy().toString() + "%";
+    accuracyTitle.appendChild(accuracy);
+}
 
 document.addEventListener('DOMContentLoaded', drawCenter);
 
@@ -26,6 +34,7 @@ let isDrawing = false;
 let lines = [];
 
 canvas.addEventListener("mousedown", function(pos) {
+    clearScreen();
     isDrawing = true;
 
     let rect = canvas.getBoundingClientRect();
@@ -34,6 +43,13 @@ canvas.addEventListener("mousedown", function(pos) {
     
     mouseX = (pos.clientX - rect.left) * scaleX;
     mouseY = (pos.clientY - rect.top) * scaleY;
+
+    if (euclideanDistance(mouseX, mouseY, canvas.width / 2, centerY = canvas.height / 2) > canvas.width) {
+        // TODO: radius too large error
+    }
+    else if (euclideanDistance(mouseX, mouseY, canvas.width / 2, centerY = canvas.height / 2) > canvas.width < 20) {
+        // TODO: radius too small error
+    }
 });
 
 canvas.addEventListener("mousemove", function(pos) {
@@ -55,6 +71,13 @@ canvas.addEventListener("mousemove", function(pos) {
 
 canvas.addEventListener("mouseup", function() {
     isDrawing = false;
+    if (shapeNotClosed() || lineTooShort()) {
+        return;
+    }
+
+    renderAccuracy();
+
+    drawCircle(calculateAverageRadius());
 });
 
 // redrawing all the lines every time could get costly fast
@@ -94,3 +117,78 @@ function drawCenter() {
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.fill();
 }
+
+function euclideanDistance(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+function slope(x1, y1, x2, y2) {
+    return (y2 - y1) / (x2 / x1);
+}
+
+function calculateAverageRadius() {
+    let distances = [];
+    for (let i = 0; i < lines.length; i++) {
+        distances.push(euclideanDistance(lines[i].x1, lines[i].y1, canvas.width / 2, centerY = canvas.height / 2))
+    }
+
+    return (distances.reduce((a, b) => a + b, 0)) / distances.length;
+}
+
+function drawCircle(radius) {
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.stroke();
+}
+
+// averaging the radius actually ensures a relatively high accuracy percent
+// thus this value ensures more "realistic" outputs
+let fudgeFactor = .15;
+
+function calculateCircleAccuracy() {
+    avgRadius = calculateAverageRadius();
+    let errorVals = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        errorVals.push(Math.abs(euclideanDistance(lines[i].x1, lines[i].y1, canvas.width / 2, 
+                                                  centerY = canvas.height / 2) - avgRadius) 
+                                                  / (canvas.width * fudgeFactor));
+    }
+
+    let avgErr = ((errorVals.reduce((a, b) => a + b, 0)) / errorVals.length) * 100;
+    let avg = 100 - avgErr;
+    return +avg.toFixed(1);
+}
+
+let MAX_ALLOWABLE_PIXEL_GAP = 15;
+function shapeNotClosed() {
+    if (euclideanDistance(lines[0].x1, lines[0].y1, 
+                          lines[lines.length - 1].x2, lines[lines.length - 1].y2) < MAX_ALLOWABLE_PIXEL_GAP) {
+        return false;
+    }
+
+    return true;
+}
+
+function lineTooShort() {
+    let sum = 0;
+    for (let i = 0; i < lines.length; i++) {
+        sum += euclideanDistance(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
+    }
+
+    if (sum > 40) {
+        return false;
+    }
+
+    return true;
+}
+
+function calculateAccuracy() {
+    if (localStorage.getItem("shape-type") === "circle") {
+        return calculateCircleAccuracy();
+    }
+}
+
