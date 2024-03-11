@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', loadPersonalScoreboardFromStorage());
 
-function getShapeType() {
+function loadShapeIntoMemory() {
     const parametersElement = document.querySelector("#parameters");
     const shapeTypeElement = document.querySelector("#shape-type");
     const numberOfSidesElement = document.querySelector("#sides");
@@ -23,105 +23,107 @@ function getShapeType() {
         return;
     }
 
-    if (shapeTypeElement.value === "polygon" && numberOfSidesElement.value === "") {
-        clearErrorMessage(parametersElement);
-        shapeErrorMessage = document.createElement("div");
-        shapeErrorMessage.textContent = "Please input a number of sides";
-        parametersElement.appendChild(shapeErrorMessage);
-        return;
-    }
-
-    if (shapeTypeElement.value === "polygon" && parseInt(numberOfSidesElement.value) === NaN) {
-        clearErrorMessage(parametersElement);
-        shapeErrorMessage = document.createElement("div");
-        shapeErrorMessage.textContent = "Please input a valid number of sides";
-        parametersElement.appendChild(shapeErrorMessage);
-        return;
-    }
-
-    if (shapeTypeElement.value === "polygon"
-        && (parseInt(numberOfSidesElement.value) < 3
-            || parseInt(numberOfSidesElement.value) > 12)) {
-        clearErrorMessage(parametersElement);
-        shapeErrorMessage = document.createElement("div");
-        shapeErrorMessage.textContent = "Please input a number of sides between 3 and 12";
-        parametersElement.appendChild(shapeErrorMessage);
-        return;
-    }
-    else { // number of sides within range
-        numSides = parseInt(numberOfSidesElement.value);
-        switch (numSides) {
-            case 3:
-                localStorage.setItem("shape-type", "Triangle");
-                break;
-            case 4:
-                localStorage.setItem("shape-type", "Square");
-                break;
-            case 5:
-                localStorage.setItem("shape-type", "Pentagon");
-                break;
-            case 6:
-                localStorage.setItem("shape-type", "Hexagon");
-                break;
-            case 7:
-                localStorage.setItem("shape-type", "Heptagon");
-                break;
-            case 8:
-                localStorage.setItem("shape-type", "Octagon");
-                break;
-            case 9:
-                localStorage.setItem("shape-type", "Nonagon");
-                break;
-            case 10:
-                localStorage.setItem("shape-type", "Decagon");
-                break;
-            case 11:
-                localStorage.setItem("shape-type", "Hendecagon");
-                break;
-            case 12:
-                localStorage.setItem("shape-type", "Dodecagon");
-                break;
+    if (shapeTypeElement.value === "polygon") {
+        if (numberOfSidesElement.value === "") {
+            clearErrorMessage(parametersElement);
+            shapeErrorMessage = document.createElement("div");
+            shapeErrorMessage.textContent = "Please input a number of sides";
+            parametersElement.appendChild(shapeErrorMessage);
+            return;
         }
-
-        localStorage.setItem("sides", numSides);
-        window.location.href = "draw.html";
+    
+        if (parseInt(numberOfSidesElement.value) === NaN) {
+            clearErrorMessage(parametersElement);
+            shapeErrorMessage = document.createElement("div");
+            shapeErrorMessage.textContent = "Please input a valid number of sides";
+            parametersElement.appendChild(shapeErrorMessage);
+            return;
+        }
+    
+        if (parseInt(numberOfSidesElement.value) < 3 || parseInt(numberOfSidesElement.value) > 12) {
+            clearErrorMessage(parametersElement);
+            shapeErrorMessage = document.createElement("div");
+            shapeErrorMessage.textContent = "Please input a number of sides between 3 and 12";
+            parametersElement.appendChild(shapeErrorMessage);
+            return;
+        }
+        else { // number of sides within range
+            numSides = parseInt(numberOfSidesElement.value);
+            switch (numSides) {
+                case 3:
+                    localStorage.setItem("shape-type", "Triangle");
+                    break;
+                case 4:
+                    localStorage.setItem("shape-type", "Square");
+                    break;
+                case 5:
+                    localStorage.setItem("shape-type", "Pentagon");
+                    break;
+                case 6:
+                    localStorage.setItem("shape-type", "Hexagon");
+                    break;
+                case 7:
+                    localStorage.setItem("shape-type", "Heptagon");
+                    break;
+                case 8:
+                    localStorage.setItem("shape-type", "Octagon");
+                    break;
+                case 9:
+                    localStorage.setItem("shape-type", "Nonagon");
+                    break;
+                case 10:
+                    localStorage.setItem("shape-type", "Decagon");
+                    break;
+                case 11:
+                    localStorage.setItem("shape-type", "Hendecagon");
+                    break;
+                case 12:
+                    localStorage.setItem("shape-type", "Dodecagon");
+                    break;
+            }
+    
+            localStorage.setItem("sides", numSides);
+            window.location.href = "draw.html";
+        }
     }
 
-    if (shapeTypeElement.value === "ellipse" && parseFloat(focalDistanceElement.value) === NaN) {
-        clearErrorMessage(parametersElement);
-        shapeErrorMessage = document.createElement("div");
-        shapeErrorMessage.textContent = "Please input a valid focal distance";
-        parametersElement.appendChild(shapeErrorMessage);
-        return;
-    }
-
-    if (shapeTypeElement.value === "ellipse" && parseFloat(focalDistanceElement.value) < 0) {
-        clearErrorMessage(parametersElement);
-        shapeErrorMessage = document.createElement("div");
-        shapeErrorMessage.textContent = "Please input a positive focal distance";
-        parametersElement.appendChild(shapeErrorMessage);
-        return;
-    }
-
-    if (shapeTypeElement.value === "ellipse" && parseFloat(focalDistanceElement.value) === 0) {
-        localStorage.setItem("shape-type", "Circle");
-        window.location.href = "draw.html";
-        return;
-    }
-
-    if (shapeTypeElement.value === "ellipse" && focalDistanceTooLarge(focalDistanceElement.value)) {
-        // TODO: set lower bound for focal distance
-        clearErrorMessage(parametersElement);
-        shapeErrorMessage = document.createElement("div");
-        shapeErrorMessage.textContent = "Please input a positive focal distance";
-        parametersElement.appendChild(shapeErrorMessage);
-        return;
-    }
-    else {
-        localStorage.setItem("shape-type", "Ellipse");
-        localStorage.setItem("focal", focalDistanceElement.value);
-        window.location.href = "draw.html";
-        return;
+    if (shapeTypeElement.value === "ellipse") {
+        if (parseFloat(focalDistanceElement.value) === NaN) {
+            clearErrorMessage(parametersElement);
+            shapeErrorMessage = document.createElement("div");
+            shapeErrorMessage.textContent = "Please input a valid focal distance";
+            parametersElement.appendChild(shapeErrorMessage);
+            return;
+        }
+    
+        if (parseFloat(focalDistanceElement.value) < 0) {
+            clearErrorMessage(parametersElement);
+            shapeErrorMessage = document.createElement("div");
+            shapeErrorMessage.textContent = "Please input a positive focal distance";
+            parametersElement.appendChild(shapeErrorMessage);
+            return;
+        }
+    
+        if (parseFloat(focalDistanceElement.value) === 0) {
+            localStorage.setItem("shape-type", "Circle");
+            window.location.href = "draw.html";
+            return;
+        }
+    
+        if (focalDistanceTooLarge(focalDistanceElement.value)) {
+            // TODO: set lower bound for focal distance
+            clearErrorMessage(parametersElement);
+            shapeErrorMessage = document.createElement("div");
+            shapeErrorMessage.textContent = "Please input a positive focal distance";
+            parametersElement.appendChild(shapeErrorMessage);
+            return;
+        }
+        else {
+            localStorage.setItem("shape-type", "Ellipse");
+            localStorage.setItem("focal", focalDistanceElement.value);
+            window.location.href = "draw.html";
+            return;
+        }
     }
 }
 
