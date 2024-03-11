@@ -114,7 +114,7 @@ function loadShapeIntoMemory() {
             // TODO: set lower bound for focal distance
             clearErrorMessage(parametersElement);
             shapeErrorMessage = document.createElement("div");
-            shapeErrorMessage.textContent = "Please input a positive focal distance";
+            shapeErrorMessage.textContent = "Please input a smaller focal distance";
             parametersElement.appendChild(shapeErrorMessage);
             return;
         }
@@ -136,7 +136,7 @@ function clearErrorMessage(element) {
 
 function calculateMaxDrawSize() {
     // see draw.css for origin of this calculation
-    return Math.min(.9 * window.innerHeight, .9 * window.innerWidth + 200);
+    return Math.min(.8 * window.innerHeight, .8 * window.innerWidth + 200);
 }
 
 function focalDistanceTooLarge(focalDistance) {
