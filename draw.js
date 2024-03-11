@@ -27,8 +27,13 @@ let lines = [];
 
 canvas.addEventListener("mousedown", function(pos) {
     isDrawing = true;
-    mouseX = pos.clientX;
-    mouseY = pos.clientY;
+
+    let rect = canvas.getBoundingClientRect();
+    let scaleX = canvas.width / rect.width;
+    let scaleY = canvas.height / rect.height;
+    
+    mouseX = (pos.clientX - rect.left) * scaleX;
+    mouseY = (pos.clientY - rect.top) * scaleY;
 });
 
 canvas.addEventListener("mousemove", function(pos) {
@@ -74,10 +79,16 @@ document.addEventListener('keydown', function(event) {
     drawCenter();
 });
 
+function clearScreen() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    lines = [];
+    drawCenter();
+}
+
 function drawCenter() {
     let centerX = canvas.width / 2;
     let centerY = canvas.height / 2;
-    let radius = 5; // Radius of the dot
+    let radius = 5;
 
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
