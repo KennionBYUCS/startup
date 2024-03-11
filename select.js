@@ -49,9 +49,41 @@ function getShapeType() {
         return;
     }
     else { // number of sides within range
-        // TODO: set name of shape type based on number of sides
-        localStorage.setItem("shape-type", "Polygon");
-        localStorage.setItem("sides", numberOfSidesElement.value);
+        numSides = parseInt(numberOfSidesElement.value);
+        switch (numSides) {
+            case 3:
+                localStorage.setItem("shape-type", "Triangle");
+                break;
+            case 4:
+                localStorage.setItem("shape-type", "Square");
+                break;
+            case 5:
+                localStorage.setItem("shape-type", "Pentagon");
+                break;
+            case 6:
+                localStorage.setItem("shape-type", "Hexagon");
+                break;
+            case 7:
+                localStorage.setItem("shape-type", "Heptagon");
+                break;
+            case 8:
+                localStorage.setItem("shape-type", "Octagon");
+                break;
+            case 9:
+                localStorage.setItem("shape-type", "Nonagon");
+                break;
+            case 10:
+                localStorage.setItem("shape-type", "Decagon");
+                break;
+            case 11:
+                localStorage.setItem("shape-type", "Hendecagon");
+                break;
+            case 12:
+                localStorage.setItem("shape-type", "Dodecagon");
+                break;
+        }
+
+        localStorage.setItem("sides", numSides);
         window.location.href = "draw.html";
     }
 
