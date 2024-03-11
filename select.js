@@ -89,7 +89,7 @@ function loadShapeIntoMemory() {
     }
 
     if (shapeTypeElement.value === "ellipse") {
-        if (parseFloat(focalDistanceElement.value) === NaN) {
+        if (isNaN(parseFloat(focalDistanceElement.value))) {
             clearErrorMessage(parametersElement);
             shapeErrorMessage = document.createElement("div");
             shapeErrorMessage.textContent = "Please input a valid focal distance";

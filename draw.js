@@ -182,7 +182,7 @@ function lineTooShort() {
         sum += euclideanDistance(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
     }
 
-    if (sum > 40) {
+    if (sum > 200) {
         return false;
     }
 

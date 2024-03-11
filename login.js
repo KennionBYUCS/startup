@@ -37,7 +37,7 @@ function create_account() {
     const passwordElement = document.querySelector("#password");
     
     if (nameElement.value === "" || passwordElement.value === "") {
-        // could also add regex types to see if username/password are reasonable
+        // TODO: add regex to see if username/password are reasonable
         if (!formElement.hasAttribute("account_creation_error_message")) {
             clearErrorMessage();
             errorMessage = document.createElement("div");
@@ -48,6 +48,7 @@ function create_account() {
         return;
     }
 
+    localStorage.clear();
     localStorage.setItem("username", nameElement.value);
     localStorage.setItem("password", passwordElement.value);
     window.location.href = "select.html";
@@ -67,8 +68,8 @@ function clearErrorMessage() {
 }
 
 function login_as_guest() {
+    localStorage.clear();
     localStorage.setItem("username", "Guest");
-    // not sure if null values can be stored like this
     localStorage.setItem("password", null);
     window.location.href = "select.html";
 }
