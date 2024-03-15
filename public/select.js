@@ -228,7 +228,7 @@ function loadPersonalScoreboardFromStorage() {
 
     if (personalScoreboard === null) {
         const personalScoreboardHead = document.querySelector("#personal-scoreboard")
-        scoreboardErrorMessage = document.createElement("div");
+        let scoreboardErrorMessage = document.createElement("div");
         scoreboardErrorMessage.textContent = "You have no saved high scores.";
         document.getElementById("personal-scoreboard").style.textAlign = "center";
         personalScoreboardHead.appendChild(scoreboardErrorMessage);
