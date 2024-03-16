@@ -74,6 +74,14 @@ function login_as_guest() {
     window.location.href = "select.html";
 }
 
-function logout() {
+async function logout() {
     localStorage.clear();
+    try {
+        const response = await fetch('/api/logout', {
+          method: 'DELETE',
+          headers: {'content-type': 'application/json'},
+        });
+    } catch {
+        console.log("Logout failed");
+    }
 }

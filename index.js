@@ -34,6 +34,11 @@ apiRouter.post('/shape', (req, res) => {
     res.send(shape);
 });
 
+apiRouter.delete('/logout', (req, res) => {
+  shape = {type: "", sides: -1, focal: -1};
+  personalScoreboard.length = 0;
+});
+
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
@@ -68,7 +73,7 @@ function updateScores(newScore, scores) {
   return scores;
 }
 
-let shape = {type: "", sides: -1, focal: -1}
+let shape = {type: "", sides: -1, focal: -1};
 function updateShape(newShape) {
     shape.type = newShape.type;
     shape.sides = parseInt(newShape.sides);
