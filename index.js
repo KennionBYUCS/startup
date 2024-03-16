@@ -1,5 +1,4 @@
 const express = require('express');
-// const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
@@ -14,13 +13,6 @@ app.use(express.static('public'));
 // Router for service endpoints
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
-
-// CORS proxy server for old API
-/*app.use('/api', createProxyMiddleware({ 
-  target: 'https://www.wolframalpha.com/', // Target host
-  changeOrigin: true, // needed for virtual hosted sites
-  pathRewrite: { '^/api': '' }, // rewrite path
-}));*/
 
 // GetScores
 apiRouter.get('/scores', (_req, res) => {
