@@ -114,6 +114,9 @@ document.addEventListener('keydown', function(event) {
         lines = []; 
         drawCenter();
     }
+    else if (event.key === "Enter") {
+        saveAccuracy();
+    }
 });
 
 function clearScreen() {
