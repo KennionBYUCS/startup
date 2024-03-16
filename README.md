@@ -62,7 +62,7 @@ For this deliverable I formatted my existing HTML code with Bootstrap CSS.
 - **Application elements** - Elements are consistently spaced across screens and employ basic Bootstrap formatting for color and structure.
 - **Application text content** - Text is selectively resized and aligned on all screens. Placeholder text included for future deliverables.
 - **Application images** - Draw screen contains a dynamically resizable image representing the maximum area in which the user will draw their shape. Size of the image is scaled across all browser sizes.
-- 
+
 ### JavaScript deliverable
 
 For this deliverable I implemented the basic functionality of my webpage using JavaScript. Note that the accuracy function is currently only accurate for circles, but this wil be updated in the future to support regular polygons.
@@ -71,3 +71,13 @@ For this deliverable I implemented the basic functionality of my webpage using J
 - **Database** - The highest accuracy scores for a player are stored across the selection and drawing pages. Login data is also cached in local storage.
 - **WebSocket** - I used the setInterval function on the global scoreboard to simulate random high score messages from a variety of users. The scoreboard is sorted and shows at maximum 12 entries.
 - **Application logic** - Forms will not be submitted when filled with invalid input. Accuracy for user-drawn shapes is calculated by comparing the average radius of the user-drawn shape to a circle of the same radius, which is displayed on the screen after the shape has been drawn.
+
+### Service deliverable
+
+For this deliverable I added backend endpoints that manages the personal scoreboard for the user using Express and Node.js.
+
+- **Node.js/Express HTTP service** - A simple Express server runs five API endpoints used for managing score and shape data across the select and draw pages.
+- **Static middleware for frontend** - Public-facing code migrated to a public folder and served up using Express.
+- **Calls to third-party endpoints** - A quote is displayed under the main website title on the welcome page. Quote is retrieved using fetch.
+- **Backend service endpoints** - Shape retrieval and update endpoints. Personal scoreboard retrieval and update endpoints. Temporary logout endpoint that clears the scoreboard when a user leaves the select and draw pages.
+- **Frontend calls service endpoints** - Backend endpoints are asynchronously called using the fetch function. 
