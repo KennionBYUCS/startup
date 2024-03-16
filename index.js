@@ -30,7 +30,7 @@ apiRouter.get('/shape', (_req, res) => {
 });
 
 apiRouter.post('/shape', (req, res) => {
-    updateShape(req.body);
+    shape = updateShape(req.body);
     res.send(shape);
 });
 
@@ -71,18 +71,8 @@ function updateScores(newScore, scores) {
 let shape = {type: "", sides: -1, focal: -1}
 function updateShape(newShape) {
     shape.type = newShape.type;
+    shape.sides = parseInt(newShape.sides);
+    shape.focal = parseFloat(newShape.focal);
 
-    if(Object.hasOwn(newShape, 'sides')) {
-        shape.sides = parseInt(newShape.sides);
-    }
-    else {
-        shape.sides = -1;
-    }
-
-    if(Object.hasOwn(newShape, 'focal')) {
-        shape.sides = parseFloat(newShape.focal);
-    }
-    else {
-        shape.sides = -1;
-    }
+    return shape;
 }

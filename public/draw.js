@@ -9,14 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     usernameDiv.appendChild(username);
 });
 
-document.addEventListener('load', function() {
-    // for some reason this does not render correctly when I rename the variables
-    usernameDiv = document.querySelector("#shape-type");
-    username = document.createElement("h3");
-    username.textContent = localStorage.getItem("shape-type");
-    usernameDiv.appendChild(username);
-});
-
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         const response = await fetch('/api/shape', {
@@ -28,6 +20,11 @@ document.addEventListener('DOMContentLoaded', async function() {
       } catch {
         shape = {type: undefined, sides: -1, focal: -1};
       }
+
+      shapeNameDiv = document.querySelector("#shape-type");
+      shapeTypeBox = document.createElement("h3");
+      shapeTypeBox.textContent = shape.type;
+      shapeNameDiv.appendChild(shapeTypeBox);
 });
 
 function renderAccuracy() {
@@ -163,7 +160,7 @@ function drawCircle(radius) {
 
 // averaging the radius actually ensures a relatively high accuracy percent
 // thus this value ensures more "realistic" outputs
-let fudgeFactor = .15;
+let fudgeFactor = .1;
 
 function calculateCircleAccuracy() {
     avgRadius = calculateAverageRadius();

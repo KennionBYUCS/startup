@@ -33,7 +33,7 @@ function loadShapeIntoMemory() {
             return;
         }
     
-        if (parseInt(numberOfSidesElement.value) === NaN) {
+        if (isNaN(parseInt(numberOfSidesElement.value))) {
             clearErrorMessage(parametersElement);
             shapeErrorMessage = document.createElement("div");
             shapeErrorMessage.textContent = "Please input a valid number of sides";
@@ -50,40 +50,41 @@ function loadShapeIntoMemory() {
         }
         else { // number of sides within range
             numSides = parseInt(numberOfSidesElement.value);
+            let shapeType;
             switch (numSides) {
                 case 3:
-                    localStorage.setItem("shape-type", "Triangle");
+                    shapeType = "Triangle";
                     break;
                 case 4:
-                    localStorage.setItem("shape-type", "Square");
+                    shapeType = "Square";
                     break;
                 case 5:
-                    localStorage.setItem("shape-type", "Pentagon");
+                    shapeType = "Pentagon";
                     break;
                 case 6:
-                    localStorage.setItem("shape-type", "Hexagon");
+                    shapeType = "Hexagon";
                     break;
                 case 7:
-                    localStorage.setItem("shape-type", "Heptagon");
+                    shapeType = "Heptagon";
                     break;
                 case 8:
-                    localStorage.setItem("shape-type", "Octagon");
+                    shapeType = "Octagon";
                     break;
                 case 9:
-                    localStorage.setItem("shape-type", "Nonagon");
+                    shapeType = "Nonagon";
                     break;
                 case 10:
-                    localStorage.setItem("shape-type", "Decagon");
+                    shapeType = "Decagon";
                     break;
                 case 11:
-                    localStorage.setItem("shape-type", "Hendecagon");
+                    shapeType = "Hendecagon";
                     break;
                 case 12:
-                    localStorage.setItem("shape-type", "Dodecagon");
+                    shapeType = "Dodecagon";
                     break;
             }
-    
-            localStorage.setItem("sides", numSides);
+
+            sendShapePostRequest(shapeType, numSides, -1);
             window.location.href = "draw.html";
         }
     }
@@ -106,7 +107,7 @@ function loadShapeIntoMemory() {
         }
     
         if (parseFloat(focalDistanceElement.value) === 0) {
-            localStorage.setItem("shape-type", "Circle");
+            sendShapePostRequest("Circle", -1, 0);
             window.location.href = "draw.html";
             return;
         }
@@ -120,12 +121,29 @@ function loadShapeIntoMemory() {
             return;
         }
         else {
-            localStorage.setItem("shape-type", "Ellipse");
-            localStorage.setItem("focal", focalDistanceElement.value);
+            sendShapePostRequest("Ellipse", -1, focalDistanceElement.value);
             window.location.href = "draw.html";
             return;
         }
     }
+}
+
+async function sendShapePostRequest(shapeType, numSides, focalDistance) {
+    const shapeObject = {type: shapeType, sides: numSides, focal: focalDistance};
+    try {
+        const response = await fetch('/api/shape', {
+          method: 'POST',
+          headers: {'content-type': 'application/json'},
+          body: JSON.stringify(shapeObject),
+        });
+      } catch {
+        setShapeLocally(shapeType, numSides, focalDistance);
+      }
+}
+
+function setShapeLocally(shapeType, numSides, focalDistance) {
+    localStorage.setItem("shape-type", shapeType);
+    localStorage.setItem("sides", numSides);
 }
 
 function clearErrorMessage(element) {
