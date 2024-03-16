@@ -67,10 +67,20 @@ function clearErrorMessage() {
     formElement.removeAttribute("login_unknown_account_error_message");
 }
 
-function login_as_guest() {
+async function login_as_guest() {
     localStorage.clear();
     localStorage.setItem("username", "Guest");
     localStorage.setItem("password", null);
+
+    try {
+        const response = await fetch('/api/logout', {
+          method: 'DELETE',
+          headers: {'content-type': 'application/json'},
+        });
+    } catch {
+        console.log("Logout failed");
+    }
+
     window.location.href = "select.html";
 }
 

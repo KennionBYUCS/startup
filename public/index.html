@@ -15,6 +15,23 @@
     <title>Polygon Pro</title>
     <link rel="icon" href="favicon.ico" />
 
+    <script>
+      function generateQuote() {
+        fetch(`https://api.quotable.io/random?maxLength=60&minLength=50`)
+          .then((response) => response.json())
+          .then((data) => {
+            const quoteDiv = document.querySelector("#quote");
+
+            //const quoteElement = document.createElement('div');
+            quoteDiv.textContent = data.content;
+
+            //canvasElement.appendChild(quoteElement);
+          });
+      }
+
+    generateQuote();
+    </script>
+
     <style>
       main {
         flex: 1 calc(100vh - 24px);
@@ -54,7 +71,7 @@
     <main class="container-fluid text-center">
       <div>
         <h1 style="font-size: 60px">Polygon Pro</h1>
-        <h2 style="font-size: 40px; padding-bottom: 7px;">Do you have what it takes?</h2>
+        <h5 style="font-size: 20px; padding-bottom: 7px;" id="quote">Do you have what it takes?</h5>
 
         <!--when in doubt, slap another div on there-->
         <div class="container">
@@ -76,7 +93,9 @@
 
     <footer class="bg-info text-black">
       <div class="container-fluid">
-        <span class="text-reset">Kennion Black</span>
+        <span class="text-reset">
+          Kennion Black
+        </span>
         <a class="text-reset" href="https://github.com/KennionBYUCS/startup">Github</a>
       </div>
     </footer>
