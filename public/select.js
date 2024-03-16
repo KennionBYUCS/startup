@@ -1,5 +1,5 @@
 let shapeErrorMessage;
-const MAX_GLOBAL_ENTRIES = 12;
+const MAX_SCOREBOARD_ENTRIES = 12;
 
 document.addEventListener('DOMContentLoaded', function () {
     usernameDiv = document.querySelector("#username-div");
@@ -165,15 +165,13 @@ class GlobalScoreboardRow {
 };
 
 let globalScoreboard = []
-let numGlobalEntries = 0;
-
 function generateRandomGlobalScoreboardRow() {
     const names = ["David", "YoungWoo", "Austin", "Kai", "Stephen", "Jacob", "Kaden", "Preston", "Matt"];
     const shapes = ["Circle", "Ellipse", "Triangle", "Square", "Pentagon", "Hexagon", "Heptagon", "Octagon", "Nonagon", "Decagon", "Hendecagon", "Dodecagon"];
 
-    randomName = names[Math.floor(Math.random() * 10) % names.length];
-    randomShape = shapes[Math.floor(Math.random() * 13) % shapes.length];
-    randomAccuracy = Math.floor(Math.random() * 100) % 100;
+    randomName = names[Math.floor(Math.random() * 10) % 9];
+    randomShape = shapes[Math.floor(Math.random() * 13) % 12];
+    randomAccuracy = Math.floor(Math.random() * 101) % 100;
 
     return new GlobalScoreboardRow(randomName, randomShape, randomAccuracy);
 }
@@ -190,22 +188,11 @@ setInterval(() => {
     const randomRow = generateRandomGlobalScoreboardRow();
     const globalScoreboardElement = document.querySelector('#global-scoreboard-body');
 
-    if(numGlobalEntries < MAX_GLOBAL_ENTRIES) {
-        globalScoreboard.push(randomRow);
-        globalScoreboard.sort(compareAccuracy);
-        numGlobalEntries++;
-    } 
-    else {
-        if (randomRow.accuracy > globalScoreboard[MAX_GLOBAL_ENTRIES - 1].accuracy) {
-            globalScoreboard.pop();
-            globalScoreboard.push(randomRow);
-            globalScoreboard.sort(compareAccuracy);
-        }
-    }
+    sortGlobalScoreboard(randomRow);
 
     let rowHTML = "";
 
-    for (let i = 0; i < numGlobalEntries; i++) {
+    for (let i = 0; i < globalScoreboard.length; i++) {
         rowHTML = rowHTML + `<tr><td>${i + 1}</td>` + convertGlobalEntryToHTML(globalScoreboard[i]) + "</tr>";
     }
 
@@ -222,9 +209,31 @@ class PersonalScoreboardRow {
     }
 }
 
-function loadPersonalScoreboardFromStorage() {
+function sortGlobalScoreboard(randomRow) {
+    if (globalScoreboard.length < MAX_SCOREBOARD_ENTRIES) {
+        globalScoreboard.push(randomRow);
+        globalScoreboard.sort(compareAccuracy);
+    }
+    else if (randomRow.accuracy > globalScoreboard[MAX_SCOREBOARD_ENTRIES - 1].accuracy) {
+        globalScoreboard.pop();
+        globalScoreboard.push(randomRow);
+        globalScoreboard.sort(compareAccuracy);
+    }
+}
+
+async function loadPersonalScoreboardFromStorage() {
     const personalScoreboardElement = document.querySelector("#personal-scoreboard-body");
-    let personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
+    let personalScoreboard;
+    try {
+        const response = await fetch('/api/scores', {
+          method: 'GET',
+          headers: {'content-type': 'application/json'},
+        });
+  
+        personalScoreboard = await response.json();
+      } catch {
+        personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
+      }
 
     if (personalScoreboard === null) {
         const personalScoreboardHead = document.querySelector("#personal-scoreboard")
@@ -235,10 +244,11 @@ function loadPersonalScoreboardFromStorage() {
         return;
     }
 
-    personalScoreboard.sort(compareAccuracy);
+    // scoreboard should come sorted from service, thus sorting here should not be necessary
+    // personalScoreboard.sort(compareAccuracy);
     
     let rowHTML = "";
-    for (let i = 0; i < Math.min(MAX_GLOBAL_ENTRIES, personalScoreboard.length); i++) {
+    for (let i = 0; i < personalScoreboard.length; i++) {
         rowHTML = rowHTML + `<tr><td>${personalScoreboard[i].shape}</td><td>${personalScoreboard[i].accuracy}%</td></tr>`
     }
 

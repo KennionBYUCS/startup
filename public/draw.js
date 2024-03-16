@@ -1,4 +1,6 @@
 localStorage.setItem("accuracy", "0");
+let accuracy = 0;
+let shape;
 
 document.addEventListener('DOMContentLoaded', function() {
     usernameDiv = document.querySelector("#username-div");
@@ -7,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     usernameDiv.appendChild(username);
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('load', function() {
     // for some reason this does not render correctly when I rename the variables
     usernameDiv = document.querySelector("#shape-type");
     username = document.createElement("h3");
@@ -15,12 +17,25 @@ document.addEventListener('DOMContentLoaded', function() {
     usernameDiv.appendChild(username);
 });
 
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const response = await fetch('/api/shape', {
+          method: 'GET',
+          headers: {'content-type': 'application/json'},
+        });
+  
+        shape = await response.json();
+      } catch {
+        shape = {type: undefined, sides: -1, focal: -1};
+      }
+});
+
 function renderAccuracy() {
     accuracyTitle = document.querySelector("#accuracy");
-    accuracy = document.createElement("h3");
-    accuracy.textContent = calculateAccuracy().toString() + "%";
-    accuracyTitle.appendChild(accuracy);
-    localStorage.setItem("accuracy", calculateAccuracy());
+    accuracyDisplay = document.createElement("h3");
+    accuracyDisplay.textContent = calculateAccuracy().toString() + "%";
+    accuracyTitle.appendChild(accuracyDisplay);
+    localStorage.setItem("accuracy", accuracy);
 }
 
 document.addEventListener('DOMContentLoaded', drawCenter);
@@ -47,10 +62,10 @@ canvas.addEventListener("mousedown", function(pos) {
     mouseX = (pos.clientX - rect.left) * scaleX;
     mouseY = (pos.clientY - rect.top) * scaleY;
 
-    if (euclideanDistance(mouseX, mouseY, canvas.width / 2, centerY = canvas.height / 2) > canvas.width) {
+    if (euclideanDistance(mouseX, mouseY, canvas.width / 2, centerY = canvas.height / 2) > (canvas.width / 2)) {
         // TODO: radius too large error
     }
-    else if (euclideanDistance(mouseX, mouseY, canvas.width / 2, centerY = canvas.height / 2) > canvas.width < 20) {
+    else if (euclideanDistance(mouseX, mouseY, canvas.width / 2, centerY = canvas.height / 2) < 20) {
         // TODO: radius too small error
     }
 });
@@ -100,9 +115,8 @@ document.addEventListener('keydown', function(event) {
     if (event.key === "Escape") { 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         lines = []; 
+        drawCenter();
     }
-
-    drawCenter();
 });
 
 function clearScreen() {
@@ -132,7 +146,7 @@ function slope(x1, y1, x2, y2) {
 function calculateAverageRadius() {
     let distances = [];
     for (let i = 0; i < lines.length; i++) {
-        distances.push(euclideanDistance(lines[i].x1, lines[i].y1, canvas.width / 2, centerY = canvas.height / 2))
+        distances.push(euclideanDistance(lines[i].x1, lines[i].y1, canvas.width / 2, centerY = canvas.height / 2));
     }
 
     return (distances.reduce((a, b) => a + b, 0)) / distances.length;
@@ -156,9 +170,8 @@ function calculateCircleAccuracy() {
     let errorVals = [];
 
     for (let i = 0; i < lines.length; i++) {
-        errorVals.push(Math.abs(euclideanDistance(lines[i].x1, lines[i].y1, canvas.width / 2, 
-                                                  centerY = canvas.height / 2) - avgRadius) 
-                                                  / (canvas.width * fudgeFactor));
+        errorVals.push(Math.abs(euclideanDistance(lines[i].x1, lines[i].y1, canvas.width / 2, canvas.height / 2) - avgRadius) 
+                        / (canvas.width * fudgeFactor));
     }
 
     let avgErr = ((errorVals.reduce((a, b) => a + b, 0)) / errorVals.length) * 100;
@@ -191,11 +204,13 @@ function lineTooShort() {
 
 function calculateAccuracy() {
     if (localStorage.getItem("shape-type") === "circle") {
-        return calculateCircleAccuracy();
+        accuracy = calculateCircleAccuracy();
+        return accuracy;
     }
     // this is a placeholder for when I get the polygon accuracy logic implemented
     else {
-        return calculateCircleAccuracy();
+        accuracy = calculateCircleAccuracy();
+        return accuracy;
     }
 }
 
@@ -209,15 +224,31 @@ class PersonalScoreboardRow {
     }
 }
 
-function saveAccuracy() {
+async function saveAccuracy() {
+    const scoreboardRow = {shape: shape.type, accuracy: calculateAccuracy()};
+
+    try {
+      const response = await fetch('/api/score', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(scoreboardRow),
+      });
+    } catch {
+      saveAccuracyLocal();
+    }
+
+    window.location.href = "select.html";
+}
+
+function saveAccuracyLocal() {
     let personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
     if (personalScoreboard === null) {
         personalScoreboard = [];
     }
 
     personalScoreboard.push(new PersonalScoreboardRow(localStorage.getItem("shape-type"), parseFloat(localStorage.getItem("accuracy"))));
+    personalScoreboard.sort(compareAccuracy);
     localStorage.setItem("personalScoreboard", JSON.stringify(personalScoreboard));
-    window.location.href = "select.html";
 }
 
 function findVertices() {
