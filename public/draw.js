@@ -160,7 +160,7 @@ function drawCircle(radius) {
 
 // averaging the radius actually ensures a relatively high accuracy percent
 // thus this value ensures more "realistic" outputs
-let fudgeFactor = .1;
+let fudgeFactor = .2;
 
 function calculateCircleAccuracy() {
     avgRadius = calculateAverageRadius();
@@ -173,6 +173,17 @@ function calculateCircleAccuracy() {
 
     let avgErr = ((errorVals.reduce((a, b) => a + b, 0)) / errorVals.length) * 100;
     let avg = 100 - avgErr;
+
+    let expectedLength = 2 * avgRadius * Math.PI;
+    let actualLength = lengthOfShape();
+
+    if (actualLength < expectedLength) {
+        avg = avg * (actualLength / expectedLength);
+    }
+    else if (actualLength > expectedLength) {
+        avg = avg * (expectedLength / actualLength);
+    }
+
     return +avg.toFixed(1);
 }
 
@@ -187,16 +198,21 @@ function shapeNotClosed() {
 }
 
 function lineTooShort() {
-    let sum = 0;
-    for (let i = 0; i < lines.length; i++) {
-        sum += euclideanDistance(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
-    }
+    let sum = lengthOfShape();
 
     if (sum > 200) {
         return false;
     }
 
     return true;
+}
+
+function lengthOfShape() {
+    let sum = 0;
+    for (let i = 0; i < lines.length; i++) {
+        sum += euclideanDistance(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
+    }
+    return sum;
 }
 
 function calculateAccuracy() {
