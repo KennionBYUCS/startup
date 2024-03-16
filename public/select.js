@@ -253,7 +253,7 @@ async function loadPersonalScoreboardFromStorage() {
         personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
       }
 
-    if (personalScoreboard === null) {
+    if (personalScoreboard === null || personalScoreboard.length === 0) {
         const personalScoreboardHead = document.querySelector("#personal-scoreboard")
         let scoreboardErrorMessage = document.createElement("div");
         scoreboardErrorMessage.textContent = "You have no saved high scores.";
