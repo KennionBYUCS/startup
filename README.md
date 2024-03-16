@@ -62,3 +62,12 @@ For this deliverable I formatted my existing HTML code with Bootstrap CSS.
 - **Application elements** - Elements are consistently spaced across screens and employ basic Bootstrap formatting for color and structure.
 - **Application text content** - Text is selectively resized and aligned on all screens. Placeholder text included for future deliverables.
 - **Application images** - Draw screen contains a dynamically resizable image representing the maximum area in which the user will draw their shape. Size of the image is scaled across all browser sizes.
+- 
+### JavaScript deliverable
+
+For this deliverable I implemented the basic functionality of my webpage using JavaScript. Note that the accuracy function is currently only accurate for circles, but this wil be updated in the future to support regular polygons.
+
+- **Login** - The login page now stores the username and password input into the form. Guest login is also implemented.
+- **Database** - The highest accuracy scores for a player are stored across the selection and drawing pages. Login data is also cached in local storage.
+- **WebSocket** - I used the setInterval function on the global scoreboard to simulate random high score messages from a variety of users. The scoreboard is sorted and shows at maximum 12 entries.
+- **Application logic** - Forms will not be submitted when filled with invalid input. Accuracy for user-drawn shapes is calculated by comparing the average radius of the user-drawn shape to a circle of the same radius, which is displayed on the screen after the shape has been drawn.
