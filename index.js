@@ -69,6 +69,21 @@ apiRouter.get('/user/:email', async (req, res) => {
   res.status(404).send({ msg: 'Unknown' });
 });
 
+apiRouter.get('/scores/global', async (_req, res) => {
+  const scores = await DB.getGlobalScores();
+  res.send(scores);
+});
+
+apiRouter.get('/shape', async (_req, res) => {
+  const shape = await DB.getShape(req.username);
+  res.send(shape);
+});
+
+apiRouter.post('/shape', async (req, res) => {
+    const shape = await DB.addShape({type : req.shape, username: req.username});
+    res.send(shape);
+});
+
 // secureApiRouter verifies credentials for endpoints
 var secureApiRouter = express.Router();
 apiRouter.use(secureApiRouter);
@@ -83,32 +98,29 @@ secureApiRouter.use(async (req, res, next) => {
   }
 });
 
-// GetScores
-secureApiRouter.get('/scores', async (_req, res) => {
-  const scores = await DB.getHighScores();
+secureApiRouter.get('/scores/personal', async (_req, res) => {
+  const scores = await DB.getPersonalScores();
   res.send(scores);
-  res.send(personalScoreboard);
 });
 
-// SubmitScore
-secureApiRouter.post('/score', (req, res) => {
-  personalScoreboard = updateScores(req.body, personalScoreboard);
-  res.send(personalScoreboard);
+secureApiRouter.post('/score/personal', async (req, res) => {
+  const personalScore = {username : req.username, shape : req.shape, accuracy: req.accuracy};
+  await DB.addPersonalScore(personalScore);
+  const personalScores = await DB.getPersonalScores();
+  res.send(personalScores);
 });
 
-secureApiRouter.get('/shape', (_req, res) => {
-    res.send(shape);
+secureApiRouter.post('/score/global', async (req, res) => {
+  const globalScore = {username : req.username, shape : req.shape, accuracy: req.accuracy};
+  await DB.addGlobalScore(globalScore);
+  const globalScores = await DB.getGlobalScores();
+  res.send(globalScores);
 });
 
-secureApiRouter.post('/shape', (req, res) => {
-    shape = updateShape(req.body);
-    res.send(shape);
-});
-
-secureApiRouter.delete('/logout', (req, res) => {
+/*secureApiRouter.delete('/logout', (req, res) => {
   shape = {type: "", sides: -1, focal: -1};
-  personalScoreboard.length = 0;
-});
+  //personalScoreboard.length = 0;
+});*/
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
@@ -119,40 +131,14 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
-// globalScoreboard exists here as a placeholder for when websocket logic is implemented
-let globalScoreboard = [];
-let personalScoreboard = [];
-
-function updateScores(newScore, scores) {
-  let found = false;
-  for (const [i, prevScore] of scores.entries()) {
-    if (newScore.accuracy > prevScore.accuracy) {
-      scores.splice(i, 0, newScore);
-      found = true;
-      break;
-    }
-  }
-
-  if (!found) {
-    scores.push(newScore);
-  }
-
-  if (scores.length > 12) {
-    // truncate last element
-    scores.length = 12;
-  }
-
-  return scores;
-}
-
-let shape = {type: "", sides: -1, focal: -1};
+/*let shape = {type: "", sides: -1, focal: -1};
 function updateShape(newShape) {
   shape.type = newShape.type;
   shape.sides = parseInt(newShape.sides);
   shape.focal = parseFloat(newShape.focal);
 
   return shape;
-}
+}*/
 
 // Default error handler
 app.use(function (err, req, res, next) {

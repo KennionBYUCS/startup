@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     usernameDiv.appendChild(usernameDisplay);
 });
 
-document.addEventListener('DOMContentLoaded', loadPersonalScoreboardFromStorage());
+document.addEventListener('DOMContentLoaded', loadPersonalScoreboard());
 
 function loadShapeIntoMemory() {
     const parametersElement = document.querySelector("#parameters");
@@ -202,6 +202,29 @@ function compareAccuracy(a, b) {
     return b.accuracy - a.accuracy;
 }
 
+// included for future websocket integration
+/*async function loadStaticGlobalScoreboard() {
+    const globalScoreboardElement = document.querySelector('#global-scoreboard-body');
+    try {
+        const response = await fetch('/api/scores/global', {
+            method: 'GET',
+            headers: {'content-type': 'application/json'},
+        });
+
+        globalScoreboard = await response.json();
+    } catch {
+        globalScoreboard = JSON.parse(localStorage.getItem("globalScoreboard"));
+    }
+
+    let rowHTML = "";
+
+    for (let i = 0; i < globalScoreboard.length; i++) {
+        rowHTML = rowHTML + `<tr><td>${i + 1}</td>` + convertGlobalEntryToHTML(globalScoreboard[i]) + "</tr>";
+    }
+
+    globalScoreboardElement.innerHTML = rowHTML;
+}*/
+
 setInterval(() => {
     const randomRow = generateRandomGlobalScoreboardRow();
     const globalScoreboardElement = document.querySelector('#global-scoreboard-body');
@@ -239,7 +262,7 @@ function sortGlobalScoreboard(randomRow) {
     }
 }
 
-async function loadPersonalScoreboardFromStorage() {
+async function loadPersonalScoreboard() {
     const personalScoreboardElement = document.querySelector("#personal-scoreboard-body");
     let personalScoreboard;
     try {

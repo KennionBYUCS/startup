@@ -9,6 +9,7 @@ const db = client.db('startup');
 const userCollection = db.collection('user');
 const personalScoreCollection = db.collection('personal');
 const globalScoreCollection = db.collection('global');
+const shapeCollection = db.collection('shape');
 
 (async function testConnection() {
     await client.connect();
@@ -48,10 +49,14 @@ const globalScoreCollection = db.collection('global');
     globalScoreCollection.insertOne(score);
   }
 
+  function addShape(shape) {
+    shapeCollection.insertOne(shape);
+  }
+
   function getPersonalHighScores() {
-    const query = { score: { $gt: 0, $lt: 900 } };
+    const query = { accuracy: { $gt: 50, $lt: 100 } };
     const options = {
-      sort: { score: -1 },
+      sort: { accuracy: -1 },
       limit: 12,
     };
     const cursor = personalScoreCollection.find(query, options);
@@ -59,13 +64,27 @@ const globalScoreCollection = db.collection('global');
   }
 
   function getGlobalHighScores() {
-    const query = { score: { $gt: 0, $lt: 900 } };
+    const query = { accuracy: { $gt: 50, $lt: 100 } };
     const options = {
-      sort: { score: -1 },
+      sort: { accuracy: -1 },
       limit: 12,
     };
     const cursor = globalScoreCollection.find(query, options);
     return cursor.toArray();
+  }
+
+  function getShape(username) {
+    const query = { username : username };
+    const options = {
+        limit: 1
+    }
+    const cursor = shapeCollection.find(query, options);
+    const shape = cursor.toArray();
+    if (shape.length > 0) {
+        return shape[0];
+    } else {
+        return null;
+    }
   }
   
   module.exports = {
@@ -74,7 +93,9 @@ const globalScoreCollection = db.collection('global');
     createUser,
     addPersonalScore: addPersonalScore,
     addGlobalScore: addGlobalScore,
+    addShape: addShape,
     getPersonalScores: getPersonalHighScores,
-    getGlobalScores: getGlobalHighScores
+    getGlobalScores: getGlobalHighScores,
+    getShape : getShape
   };  
 

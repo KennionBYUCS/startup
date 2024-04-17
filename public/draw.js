@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const response = await fetch('/api/shape', {
           method: 'GET',
           headers: {'content-type': 'application/json'},
+          body: {'username': localStorage.getItem("username")}
         });
   
         shape = await response.json();
@@ -192,8 +193,10 @@ function calculateCircleAccuracy() {
 
 let MAX_ALLOWABLE_PIXEL_GAP = 15;
 function shapeNotClosed() {
-    if (euclideanDistance(lines[0].x1, lines[0].y1, 
-                          lines[lines.length - 1].x2, lines[lines.length - 1].y2) < MAX_ALLOWABLE_PIXEL_GAP) {
+    if (euclideanDistance(lines[0].x1, 
+                          lines[0].y1, 
+                          lines[lines.length - 1].x2, 
+                          lines[lines.length - 1].y2) < MAX_ALLOWABLE_PIXEL_GAP) {
         return false;
     }
 
@@ -244,7 +247,7 @@ async function saveAccuracy() {
     const scoreboardRow = {shape: shape.type, accuracy: calculateAccuracy()};
 
     try {
-      const response = await fetch('/api/score', {
+      const response = await fetch('/api/score/personal', {
         method: 'POST',
         headers: {'content-type': 'application/json'},
         body: JSON.stringify(scoreboardRow),
