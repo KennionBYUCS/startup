@@ -79,23 +79,24 @@ const shapeCollection = db.collection('shape');
         limit: 1
     }
     const cursor = shapeCollection.find(query, options);
-    const shape = cursor.toArray();
+    return cursor.toArray();
+    /*const shape = cursor.toArray();
     if (shape.length > 0) {
         return shape[0];
     } else {
         return null;
-    }
+    }*/
   }
   
   module.exports = {
     getUser,
     getUserByToken,
     createUser,
-    addPersonalScore: addPersonalScore,
-    addGlobalScore: addGlobalScore,
-    addShape: addShape,
+    addPersonalScore,
+    addGlobalScore,
+    addShape,
     getPersonalScores: getPersonalHighScores,
     getGlobalScores: getGlobalHighScores,
-    getShape : getShape
+    getShape
   };  
 

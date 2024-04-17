@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         const response = await fetch('/api/shape', {
           method: 'GET',
           headers: {'content-type': 'application/json'},
-          body: {'username': localStorage.getItem("username")}
+          body: {username: localStorage.getItem("username")}
         });
   
         shape = await response.json();
+        console.log(shape);
       } catch {
         shape = {type: undefined, sides: -1, focal: -1};
       }
@@ -244,7 +245,13 @@ class PersonalScoreboardRow {
 }
 
 async function saveAccuracy() {
-    const scoreboardRow = {shape: shape.type, accuracy: calculateAccuracy()};
+    const scoreboardRow = {username: localStorage.getItem("username"), shape: shape.type, accuracy: calculateAccuracy()};
+
+    if (localStorage.getItem("username") === "Guest") {
+        // guest data should not persist
+        saveAccuracyLocal();
+        return;
+    }
 
     try {
       const response = await fetch('/api/score/personal', {
@@ -268,6 +275,10 @@ function saveAccuracyLocal() {
     personalScoreboard.push(new PersonalScoreboardRow(localStorage.getItem("shape-type"), parseFloat(localStorage.getItem("accuracy"))));
     personalScoreboard.sort(compareAccuracy);
     localStorage.setItem("personalScoreboard", JSON.stringify(personalScoreboard));
+}
+
+function compareAccuracy(a, b) {
+    return b.accuracy - a.accuracy;
 }
 
 function findVertices() {

@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const DB = require('./database.js');
 
+const authCookieName = 'token';
+
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -75,14 +77,19 @@ apiRouter.get('/scores/global', async (_req, res) => {
   res.send(scores);
 });
 
-apiRouter.get('/shape', async (_req, res) => {
-  const shape = await DB.getShape(req.username);
+apiRouter.get('/shape', async (req, res) => {
+  const shape = await DB.getShape(req.body.username);
   res.send(shape);
 });
 
 apiRouter.post('/shape', async (req, res) => {
-    const shape = await DB.addShape({type : req.shape, username: req.username});
+  if (req.body.username == "Guest") {
     res.send(shape);
+    return;
+  }
+
+  const shape = await DB.addShape({type : req.body.shape, username: req.body.username});
+  res.send(shape);
 });
 
 // secureApiRouter verifies credentials for endpoints
@@ -105,14 +112,14 @@ secureApiRouter.get('/scores/personal', async (_req, res) => {
 });
 
 secureApiRouter.post('/score/personal', async (req, res) => {
-  const personalScore = {username : req.username, shape : req.shape, accuracy: req.accuracy};
+  const personalScore = {username : req.body.username, shape : req.body.shape, accuracy: req.body.accuracy};
   await DB.addPersonalScore(personalScore);
   const personalScores = await DB.getPersonalScores();
   res.send(personalScores);
 });
 
 secureApiRouter.post('/score/global', async (req, res) => {
-  const globalScore = {username : req.username, shape : req.shape, accuracy: req.accuracy};
+  const globalScore = {username : req.body.username, shape : req.body.shape, accuracy: req.body.accuracy};
   await DB.addGlobalScore(globalScore);
   const globalScores = await DB.getGlobalScores();
   res.send(globalScores);
