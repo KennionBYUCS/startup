@@ -126,11 +126,6 @@ secureApiRouter.post('/score/global', async (req, res) => {
   res.send(globalScores);
 });
 
-/*secureApiRouter.delete('/logout', (req, res) => {
-  shape = {type: "", sides: -1, focal: -1};
-  //personalScoreboard.length = 0;
-});*/
-
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
@@ -139,15 +134,6 @@ app.use((_req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-
-/*let shape = {type: "", sides: -1, focal: -1};
-function updateShape(newShape) {
-  shape.type = newShape.type;
-  shape.sides = parseInt(newShape.sides);
-  shape.focal = parseFloat(newShape.focal);
-
-  return shape;
-}*/
 
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {

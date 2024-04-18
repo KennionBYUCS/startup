@@ -129,7 +129,7 @@ function loadShapeIntoMemory() {
 }
 
 async function sendShapePostRequest(shapeType, numSides, focalDistance) {
-    const shapeObject = {username: localStorage.getItem("username"), type: shapeType /*, sides: numSides, focal: focalDistance*/};
+    const shapeObject = {username: localStorage.getItem("username"), type: shapeType};
     try {
         const response = await fetch('/api/shape', {
           method: 'POST',
