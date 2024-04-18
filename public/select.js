@@ -144,6 +144,7 @@ async function sendShapePostRequest(shapeType, numSides, focalDistance) {
 function setShapeLocally(shapeType, numSides, focalDistance) {
     localStorage.setItem("shape-type", shapeType);
     localStorage.setItem("sides", numSides);
+    localStorage.setItem("focal", focalDistance);
 }
 
 function clearErrorMessage(element) {
@@ -266,7 +267,7 @@ async function loadPersonalScoreboard() {
     const personalScoreboardElement = document.querySelector("#personal-scoreboard-body");
     let personalScoreboard;
     try {
-        const response = await fetch('/api/scores', {
+        const response = await fetch('/api/scores/personal', {
           method: 'GET',
           headers: {'content-type': 'application/json'},
         });
@@ -275,8 +276,15 @@ async function loadPersonalScoreboard() {
       } catch {
         personalScoreboard = JSON.parse(localStorage.getItem("personalScoreboard"));
       }
-
-    if (personalScoreboard === null || personalScoreboard.length === 0) {
+    
+    if (localStorage.getItem("username") === "Guest") {
+        const personalScoreboardHead = document.querySelector("#personal-scoreboard")
+        let scoreboardErrorMessage = document.createElement("div");
+        scoreboardErrorMessage.textContent = "Guests cannot save high scores.";
+        document.getElementById("personal-scoreboard").style.textAlign = "center";
+        personalScoreboardHead.appendChild(scoreboardErrorMessage);
+        return;
+    } else if (personalScoreboard === null || personalScoreboard.length === 0) {
         const personalScoreboardHead = document.querySelector("#personal-scoreboard")
         let scoreboardErrorMessage = document.createElement("div");
         scoreboardErrorMessage.textContent = "You have no saved high scores.";
@@ -289,7 +297,7 @@ async function loadPersonalScoreboard() {
     // personalScoreboard.sort(compareAccuracy);
     
     let rowHTML = "";
-    for (let i = 0; i < personalScoreboard.length; i++) {
+    for (let i = 0; i < Math.min(12, personalScoreboard.length); i++) {
         rowHTML = rowHTML + `<tr><td>${personalScoreboard[i].shape}</td><td>${personalScoreboard[i].accuracy}%</td></tr>`
     }
 

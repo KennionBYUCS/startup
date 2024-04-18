@@ -1,7 +1,48 @@
 let errorMessage;
 
-function login() {
+async function login() {
+    loginOrCreate(`/api/auth/login`);
+}
+
+async function create_account() {
+    loginOrCreate(`/api/auth/create`);
+}
+
+async function loginOrCreate(endpoint) {
+    const username = document.querySelector('#name')?.value;
+    const password = document.querySelector('#password')?.value;
+    const response = await fetch(endpoint, {
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password }),
+        headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        },
+    });
+
+    if (response.ok) {
+        localStorage.setItem('username', username);
+        window.location.href = 'select.html';
+    } else {
+        const body = await response.json();
+        const modalEl = document.querySelector('#formError');
+        modalEl.querySelector('.modal-body').textContent = `⚠ Error: ${body.msg}`;
+        const msgModal = new bootstrap.Modal(modalEl, {});
+        msgModal.show();
+    }
+}
+
+/*function login() {
     const formElement = document.querySelector("#form");
+    try {
+        const response = await fetch('/auth/login', {
+            method: 'GET',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify({username: document.querySelector("#name").value})
+        }
+
+
+        )
+    }
     // checking to see if username/password combination stored in local storage matches input
     // as of right now, this will never happen, but this will later be replaced by a database call
     // that checks the stored username and password combinations
@@ -65,7 +106,7 @@ function clearErrorMessage() {
     formElement.removeAttribute("account_creation_error_message");
     formElement.removeAttribute("login_wrong_password_error_message");
     formElement.removeAttribute("login_unknown_account_error_message");
-}
+}*/
 
 async function login_as_guest() {
     localStorage.clear();
@@ -73,9 +114,8 @@ async function login_as_guest() {
     localStorage.setItem("password", null);
 
     try {
-        const response = await fetch('/api/logout', {
+        const response = await fetch('/api//auth/logout', {
           method: 'DELETE',
-          headers: {'content-type': 'application/json'},
         });
     } catch {
         console.log("Logout failed");
@@ -84,7 +124,14 @@ async function login_as_guest() {
     window.location.href = "select.html";
 }
 
-async function logout() {
+function logout() {
+    localStorage.removeItem('username');
+    fetch(`/api/auth/logout`, {
+      method: 'delete',
+    }).then(() => (window.location.href = 'login.html'));
+  }
+
+/*async function logout() {
     localStorage.clear();
     try {
         const response = await fetch('/api/logout', {
@@ -94,4 +141,4 @@ async function logout() {
     } catch {
         console.log("Logout failed");
     }
-}
+}*/

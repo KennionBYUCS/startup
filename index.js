@@ -45,7 +45,8 @@ apiRouter.post('/auth/create', async (req, res) => {
 apiRouter.post('/auth/login', async (req, res) => {
   const user = await DB.getUser(req.body.username);
   if (user) {
-    if (true) {
+    // bcrypt not used due to compilation error, ask David Bauch for confirmation
+    if (req.body.password === user.password) {
     //if (await bcrypt.compare(req.body.password, user.password)) {
       setAuthCookie(res, user.token);
       res.send({ id: user._id });
@@ -83,7 +84,7 @@ apiRouter.get('/shape', async (req, res) => {
 });
 
 apiRouter.post('/shape', async (req, res) => {
-  if (req.body.username == "Guest") {
+  if (req.body.username === "Guest") {
     res.send(shape);
     return;
   }
