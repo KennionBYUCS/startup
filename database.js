@@ -82,7 +82,6 @@ const shapeCollection = db.collection('shape');
     }
     const cursor = shapeCollection.find(query, options);
     return cursor.toArray();
-
   }
   
   module.exports = {

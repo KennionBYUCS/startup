@@ -79,16 +79,12 @@ apiRouter.get('/scores/global', async (_req, res) => {
 });
 
 apiRouter.get('/shape', async (req, res) => {
-  const shape = await DB.getShape(req.body.username);
+  const shape = await DB.getShape(req.params.username);
+  console.log(shape.type);
   res.send(shape);
 });
 
 apiRouter.post('/shape', async (req, res) => {
-  if (req.body.username === "Guest") {
-    res.send(shape);
-    return;
-  }
-
   const shape = await DB.addShape({type : req.body.type, username: req.body.username});
   res.send(shape);
 });

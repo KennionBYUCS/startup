@@ -14,18 +14,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         const response = await fetch('/api/shape', {
           method: 'GET',
           headers: {'content-type': 'application/json'},
-          body: {username: localStorage.getItem("username")}
+          params: {username: localStorage.getItem("username")}
         });
   
         shape = await response.json();
-        console.log(shape);
       } catch {
         shape = {type: undefined, sides: -1, focal: -1};
       }
 
       shapeNameDiv = document.querySelector("#shape-type");
       shapeTypeBox = document.createElement("h3");
-      shapeTypeBox.textContent = shape.type;
+      shapeTypeBox.textContent = shape[0].type;
       shapeNameDiv.appendChild(shapeTypeBox);
 });
 
