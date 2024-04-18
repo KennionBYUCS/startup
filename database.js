@@ -51,8 +51,32 @@ const shapeCollection = db.collection('shape');
     globalScoreCollection.insertOne(score);
   }
 
-  function addShape(shape) {
-    shapeCollection.insertOne(shape);
+  async function createUserDocument(username) {
+    try {
+      const existingUser = await shapeCollection.findOne({ username: username });
+  
+      if (!existingUser) {
+        await shapeCollection.insertOne({
+          username: username,
+          shapes: []
+        });
+      } else {
+        console.log(`User document for '${username}' already exists`);
+      }
+    } catch (error) {
+      console.error(`Error while creating user document for '${username}':`, error);
+    }
+  }
+
+  async function addShape(shape) {
+    await createUserDocument(shape.username);
+
+    const result = await shapeCollection.updateOne(
+      { username: shape.username }, 
+      { $addToSet: { shapes: shape } }, 
+      { upsert: true }
+    );
+    //shapeCollection.insertOne(shape);
   }
 
   function getPersonalHighScores() {
@@ -75,13 +99,18 @@ const shapeCollection = db.collection('shape');
     return cursor.toArray();
   }
 
-  function getShape(username) {
-    const query = { username : username };
-    const options = {
-        limit: 1
+  async function getShapes(username) {
+    try {
+      const query = { username: username };
+      console.log("Username: " + username);
+      const shapes = await shapeCollection.find(query).toArray();
+      //console.log(await shapeCollection.find(query));
+      //console.log(shapes);
+      return shapes;
+    } catch (error) {
+      console.error(`Error while fetching shapes for user '${username}':`, error);
+      throw error;
     }
-    const cursor = shapeCollection.find(query, options);
-    return cursor.toArray();
   }
   
   module.exports = {
@@ -93,6 +122,6 @@ const shapeCollection = db.collection('shape');
     addShape,
     getPersonalScores: getPersonalHighScores,
     getGlobalScores: getGlobalHighScores,
-    getShape
+    getShapes
   };  
 

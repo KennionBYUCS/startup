@@ -1,6 +1,5 @@
 localStorage.setItem("accuracy", "0");
 let accuracy = 0;
-let shape;
 
 document.addEventListener('DOMContentLoaded', function() {
     usernameDiv = document.querySelector("#username-div");
@@ -9,22 +8,22 @@ document.addEventListener('DOMContentLoaded', function() {
     usernameDiv.appendChild(username);
 });
 
+let shapes;
 document.addEventListener('DOMContentLoaded', async function() {
     try {
-        const response = await fetch('/api/shape', {
+        const response = await fetch('/api/shape?username=' + localStorage.getItem("username"), {
           method: 'GET',
           headers: {'content-type': 'application/json'},
-          params: {username: localStorage.getItem("username")}
         });
   
-        shape = await response.json();
+        shapes = await response.json();
       } catch {
-        shape = {type: undefined, sides: -1, focal: -1};
+        shapes = [{type: undefined, sides: -1, focal: -1}];
       }
 
       shapeNameDiv = document.querySelector("#shape-type");
       shapeTypeBox = document.createElement("h3");
-      shapeTypeBox.textContent = shape[0].type;
+      shapeTypeBox.textContent = shapes[shapes.length - 1].shapes[shapes.length - 1].type;
       shapeNameDiv.appendChild(shapeTypeBox);
 });
 
@@ -244,7 +243,7 @@ class PersonalScoreboardRow {
 }
 
 async function saveAccuracy() {
-    const scoreboardRow = {username: localStorage.getItem("username"), shape: shape.type, accuracy: calculateAccuracy()};
+    const scoreboardRow = {username: localStorage.getItem("username"), shape: shapes[shapes.length - 1].shapes[shapes.length - 1].type, accuracy: calculateAccuracy()};
 
     if (localStorage.getItem("username") === "Guest") {
         // guest data should not persist

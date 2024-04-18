@@ -79,9 +79,9 @@ apiRouter.get('/scores/global', async (_req, res) => {
 });
 
 apiRouter.get('/shape', async (req, res) => {
-  const shape = await DB.getShape(req.params.username);
-  console.log(shape.type);
-  res.send(shape);
+  //console.log(req);
+  const shapes = await DB.getShapes(req.query.username);
+  res.send(shapes);
 });
 
 apiRouter.post('/shape', async (req, res) => {
