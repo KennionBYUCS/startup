@@ -80,4 +80,13 @@ For this deliverable I added backend endpoints that manages the personal scorebo
 - **Static middleware for frontend** - Public-facing code migrated to a public folder and served up using Express.
 - **Calls to third-party endpoints** - A quote is displayed under the main website title on the welcome page. Quote is retrieved using fetch.
 - **Backend service endpoints** - Shape retrieval and update endpoints. Personal scoreboard retrieval and update endpoints. Temporary logout endpoint that clears the scoreboard when a user leaves the select and draw pages.
-- **Frontend calls service endpoints** - Backend endpoints are asynchronously called using the fetch function. 
+- **Frontend calls service endpoints** - Backend endpoints are asynchronously called using the fetch function.
+
+### DB/Login deliverable
+For this deliverable I store user credentials in a personal MongoDB instance as well as score and shape information.
+
+- **MongoDB database creation** - Database is registered and actively accepts input provided from API calls.
+- **Data stored in MongoDB** - Authentication, score, and shape information can be accessed via calls to the database configured in database.js.
+- **User registration** - New user credentials are stored in the database. Duplicate usernames and invalid password attempts are not processed.
+- **Data persistence** - User scores are saved across multiple sessions, which are visible under the Personal Scoreboard in select.html.
+- **Restricted functionality** - Unregistered users cannot save personal scores.
