@@ -30,6 +30,7 @@ const shapeCollection = db.collection('shape');
   
   async function createUser(username, password) {
     // Hash the password before we insert it into the database
+    // not implemented due to bcrypt compilation error (ask David Bauch)
     const passwordHash = password; //await bcrypt.hash(password, 10);
   
     const user = {
