@@ -89,7 +89,7 @@ apiRouter.post('/shape', async (req, res) => {
     return;
   }
 
-  const shape = await DB.addShape({type : req.body.shape, username: req.body.username});
+  const shape = await DB.addShape({type : req.body.type, username: req.body.username});
   res.send(shape);
 });
 
