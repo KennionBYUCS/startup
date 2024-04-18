@@ -24,10 +24,13 @@ async function loginOrCreate(endpoint) {
         window.location.href = 'select.html';
     } else {
         const body = await response.json();
-        const modalEl = document.querySelector('#formError');
-        modalEl.querySelector('.modal-body').textContent = `⚠ Error: ${body.msg}`;
+        const form = document.querySelector('#form');
+        errorMessage = document.createElement("div");
+        errorMessage.textContent = `⚠ Error: ${body.msg}`;
+        form.appendChild(errorMessage);
+        /*modalEl.querySelector('.modal-body').textContent = `⚠ Error: ${body.msg}`;
         const msgModal = new bootstrap.Modal(modalEl, {});
-        msgModal.show();
+        msgModal.show();*/
     }
 }
 
@@ -114,7 +117,7 @@ async function login_as_guest() {
     localStorage.setItem("password", null);
 
     try {
-        const response = await fetch('/api//auth/logout', {
+        const response = await fetch('/api/auth/logout', {
           method: 'DELETE',
         });
     } catch {
