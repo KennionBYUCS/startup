@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
       shapeNameDiv = document.querySelector("#shape-type");
       shapeTypeBox = document.createElement("h3");
-      shapeTypeBox.textContent = shapes[shapes.length - 1].shapes[shapes.length - 1].type;
+      shapeTypeBox.textContent = shapes[0].shapes[shapes[0].shapes.length - 1].type;
       shapeNameDiv.appendChild(shapeTypeBox);
 });
 
@@ -243,7 +243,7 @@ class PersonalScoreboardRow {
 }
 
 async function saveAccuracy() {
-    const scoreboardRow = {username: localStorage.getItem("username"), shape: shapes[shapes.length - 1].shapes[shapes.length - 1].type, accuracy: calculateAccuracy()};
+    const scoreboardRow = {username: localStorage.getItem("username"), shape: shapes[0].shapes[shapes[0].shapes.length - 1].type, accuracy: calculateAccuracy()};
 
     if (localStorage.getItem("username") === "Guest") {
         // guest data should not persist
